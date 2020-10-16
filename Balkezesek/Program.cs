@@ -76,12 +76,34 @@ namespace Balkezesek
             double atlag = Math.Round(szum / evesList.Count(), 2);
             Console.WriteLine("6. feladat: {0:N2} font", atlag);
         }
+        static void Hetedik()
+        {
+            var nevek = from b in balkez
+                        select b.Nev;
+
+            var nevLista = nevek.ToList();
+
+            var kezdoBetu = from n in nevLista
+                            orderby n
+                            group n by n[0] into Nevek
+                            select Nevek;
+
+            foreach (var csoport in kezdoBetu)
+            {
+                Console.WriteLine(" {0}", csoport.Key);
+                foreach (var csoportTag in csoport)
+                {
+                    Console.WriteLine($"\t{csoportTag}");
+                }
+            }
+        }
         static void Main(string[] args)
         {
             Beolvasás();
             HarmadikFeladat();
             NegyedikFeladat();
             OtHat();
+            Hetedik();
             Console.ReadKey();
         }
     }
