@@ -26,12 +26,62 @@ namespace Balkezesek
         }
         static void HarmadikFeladat()
         {
-            Console.WriteLine("3. feladat: ", balkez.Count);
+            Console.WriteLine("3. feladat: {0}", balkez.Count);
+        }
+        static void NegyedikFeladat()
+        {
+            //    var negyedik = from b in balkez
+            //                   where b.Utolso.Contains("1999-10-")
+            //                   select new { Name = b.Nev, Mag = b.Magassag};
+
+            //    Console.WriteLine($"4. feladat:");
+            Console.WriteLine("4. feladat: ");
+
+            foreach (var b in balkez)
+            {
+                if (b.Utolso.Contains("1999-10"))
+                {
+                    Console.WriteLine($"\t{b.Nev}  {Math.Round(b.Magassag * 2.54, 1)} cm");
+                }
+            }
+
+        }
+        static void OtHat()
+        {
+            int evszam = 0;
+            bool hibas;
+            do
+            {
+                hibas = false;
+                Console.WriteLine("Kérek egy 1990 és 1999 közötti évszámot: ");
+                evszam = Convert.ToInt32(Console.ReadLine());
+                if (evszam < 1990 || evszam > 1999)
+                {
+                    hibas = true;
+                    Console.WriteLine("Hibás adat");
+                }
+            } while (hibas);
+            var eves = from b in balkez
+                       where Convert.ToInt32(b.Elso.Substring(0, 4)) <= evszam
+                       &&
+                       Convert.ToInt32(b.Utolso.Substring(0, 4)) >= evszam
+                       select new { b.Suly };
+
+            var evesList = eves.ToList();
+            double szum = 0;
+            foreach (var e in evesList)
+            {
+                szum += e.Suly;
+            }
+            double atlag = Math.Round(szum / evesList.Count(), 2);
+            Console.WriteLine("6. feladat: {0:N2} font", atlag);
         }
         static void Main(string[] args)
         {
             Beolvasás();
             HarmadikFeladat();
+            NegyedikFeladat();
+            OtHat();
             Console.ReadKey();
         }
     }
